@@ -33,3 +33,6 @@ go.work.sum
 .idea/
 
 assets/
+
+# Deb
+./assemble/deb/poweroffs/usr/local/bin/*
