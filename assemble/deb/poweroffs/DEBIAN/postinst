@@ -1,5 +1,7 @@
 #!/bin/sh
 set -e
+# 创建 /var/poweroffs
+mkdir -p /var/poweroffs
 # 重新加载 systemd 配置，让系统识别新的服务文件
 systemctl daemon-reload
 # 启用服务，使其开机自启

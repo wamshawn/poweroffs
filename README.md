@@ -62,7 +62,13 @@ fakeroot dpkg-deb --build poweroffs
 
 Install
 ```shell
-sudo dpkg -i poweroffs
+sudo dpkg -i poweroffs.deb
+```
+
+Check
+```shell
+sudo systemctl status poweroffs
+ps -ef | grep poweroffs
 ```
 
 Uninstall
