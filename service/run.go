@@ -27,10 +27,10 @@ const (
 )
 
 type Options struct {
-	UnixAddr     string
-	TcpAddr      string
-	CertFilename string
-	KeyFilename  string
+	UnixAddr     string `json:"unix"`
+	TcpAddr      string `json:"tcp"`
+	CertFilename string `json:"cert"`
+	KeyFilename  string `json:"key"`
 }
 
 func Run(ctx context.Context, options Options) (err error) {

@@ -3,10 +3,12 @@ package main
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"strings"
 	"syscall"
 	"time"
@@ -17,6 +19,7 @@ import (
 )
 
 const (
+	configParam           = "config"
 	unixSocketParam       = "unix"
 	defaultUnixSocketAddr = `/var/local/poweroffs/poweroffs.sock`
 	tcpSocketParam        = "tcp"
@@ -41,7 +44,7 @@ func main() {
 	// cmd
 	cmd := &cli.Command{
 		Name:                  "poweroffs",
-		Version:               "v0.0.1",
+		Version:               "v0.0.2",
 		EnableShellCompletion: true,
 		Usage:                 "run a unix socket to power off system",
 		Copyright:             "(c) 2026 CNXGM Enterprise",
@@ -72,6 +75,12 @@ func main() {
 				Usage: "run a power off signal system",
 				Flags: []cli.Flag{
 					&cli.StringFlag{
+						Name:    configParam,
+						Value:   "",
+						Usage:   "config file path",
+						Sources: cli.EnvVars("POWEROFFS_CONFIG"),
+					},
+					&cli.StringFlag{
 						Name:    unixSocketParam,
 						Value:   defaultUnixSocketAddr,
 						Usage:   "unix sock file path",
@@ -97,20 +106,39 @@ func main() {
 					},
 				},
 				Action: func(ctx context.Context, cmd *cli.Command) (err error) {
-					unixAddr := strings.TrimSpace(cmd.String(unixSocketParam))
-					if unixAddr == "" {
-						unixAddr = defaultUnixSocketAddr
-					}
-					tcpAddr := strings.TrimSpace(cmd.String(tcpSocketParam))
-					certFilename := strings.TrimSpace(cmd.String(certParam))
-					keyFilename := strings.TrimSpace(cmd.String(keyParam))
+					options := service.Options{}
 
-					err = service.Run(ctx, service.Options{
-						UnixAddr:     unixAddr,
-						TcpAddr:      tcpAddr,
-						CertFilename: certFilename,
-						KeyFilename:  keyFilename,
-					})
+					config := strings.TrimSpace(cmd.String(configParam))
+					if config == "" {
+						options.UnixAddr = strings.TrimSpace(cmd.String(unixSocketParam))
+						if options.UnixAddr == "" {
+							options.UnixAddr = defaultUnixSocketAddr
+						}
+						options.TcpAddr = strings.TrimSpace(cmd.String(tcpSocketParam))
+						options.CertFilename = strings.TrimSpace(cmd.String(certParam))
+						options.KeyFilename = strings.TrimSpace(cmd.String(keyParam))
+					} else {
+						if !filepath.IsAbs(config) {
+							abs, absErr := filepath.Abs(config)
+							if absErr != nil {
+								err = errors.Join(errors.New("run failed"), errors.New("config file path is not absolute"), absErr)
+								return
+							}
+							config = abs
+						}
+						config = filepath.ToSlash(config)
+						configBytes, readConfigErr := os.ReadFile(config)
+						if readConfigErr != nil {
+							err = errors.Join(errors.New("run failed"), errors.New("read config failed"), readConfigErr)
+							return
+						}
+						if err = json.Unmarshal(configBytes, &options); err != nil {
+							err = errors.Join(errors.New("run failed"), errors.New("decode config failed"), err)
+							return
+						}
+					}
+
+					err = service.Run(ctx, options)
 
 					return
 				},
