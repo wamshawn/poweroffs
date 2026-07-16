@@ -1,5 +1,5 @@
 # poweroffs
-one application use unix or tcp listener to listen power off signal to power off linux system.
+An application use unix or tcp listener to listen power off signal to power off linux system.
 
 
 ## Install
@@ -14,15 +14,20 @@ go install github.com/wamshawn/poweroffs@latest
 
 Use unix sock only.
 ```shell
-sudo run poweroffs --unix=poweroffs.sock
+sudo poweroffs run --unix=poweroffs.sock
 ```
 
 With tcp, ca is required.
 ```shell
-sudo run poweroffs --unix=poweroffs.sock \
+sudo poweroffs run --unix=poweroffs.sock \
  --tcp=127.0.0.1:13000 \
  --cert=ca.crt \
  --key=ca.key
+```
+
+Generate CA.
+```shell
+sudo poweroffs gen -o=/etc/poweroffs
 ```
 
 ### Send signal
