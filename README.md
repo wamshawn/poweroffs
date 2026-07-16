@@ -56,6 +56,7 @@ chmod +x ./poweroffs/DEBIAN/prerm
 
 Package
 ```shell
+sudo apt install fakeroot
 fakeroot dpkg-deb --build poweroffs
 ```
 
