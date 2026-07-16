@@ -1,5 +1,5 @@
 Package: poweroffs
-Version: v0.0.2
+Version: 0.0.2
 Section: base
 Priority: optional
 Architecture: arm64
