@@ -73,5 +73,5 @@ ps -ef | grep poweroffs
 
 Uninstall
 ```shell
-dpkg -r poweroffs
+sudo dpkg -r poweroffs
 ```
