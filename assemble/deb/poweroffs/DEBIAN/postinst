@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+# 重新加载 systemd 配置，让系统识别新的服务文件
+systemctl daemon-reload
+# 启用服务，使其开机自启
+systemctl enable poweroffs.service
+# 立即启动服务
+systemctl start poweroffs.service
+exit 0

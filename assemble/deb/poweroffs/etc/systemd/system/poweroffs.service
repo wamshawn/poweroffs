@@ -1,0 +1,14 @@
+[Unit]
+Description=Poweroffs service
+After=network.target
+
+[Service]
+Type=simple
+# 关键：指定二进制文件的完整路径，它将作为 root 运行
+ExecStart=/usr/local/bin/poweroffs --config=/etc/poweroffs/config.json
+# 如果程序崩溃，自动重启
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

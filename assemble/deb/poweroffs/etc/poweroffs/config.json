@@ -1,0 +1,6 @@
+{
+  "unix": "/var/poweroffs/unix.sock",
+  "tcp": "",
+  "cert": "",
+  "key": ""
+}

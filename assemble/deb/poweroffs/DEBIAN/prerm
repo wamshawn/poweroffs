@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+case "$1" in
+    remove|purge)
+        systemctl stop poweroffs.service || true
+        systemctl disable poweroffs.service || true
+        systemctl daemon-reload
+        ;;
+esac
+exit 0
