@@ -1,5 +1,5 @@
 # poweroffs
-one application use unix or tcp listner to listen power off signal to power off linux system.
+one application use unix or tcp listener to listen power off signal to power off linux system.
 
 
 ## Install
@@ -29,3 +29,42 @@ sudo run poweroffs --unix=poweroffs.sock \
 
 Connect to server and send `reboot` or `poweroff`, the target system will restart or shutdown after 500ms.
 
+## Build service
+Clone project.
+```shell
+git clone https://github.com/wamshawn/poweroffs.git
+
+cd poweroffs
+```
+### DEB
+
+Build bin.
+```shell
+go build -o ./assemble/deb/poweroffs/usr/local/bin/poweroffs
+```
+
+Into deb.
+```shell
+cd ./assemble/deb
+```
+
+Chmod +X.
+```shell
+chmod +x ./poweroffs/DEBIAN/postinst
+chmod +x ./poweroffs/DEBIAN/prerm
+```
+
+Package
+```shell
+fakeroot dpkg-deb --build poweroffs
+```
+
+Install
+```shell
+sudo dpkg -i poweroffs
+```
+
+Uninstall
+```shell
+dpkg -r poweroffs
+```
