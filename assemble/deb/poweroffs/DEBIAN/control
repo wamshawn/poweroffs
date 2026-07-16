@@ -5,4 +5,5 @@ Priority: optional
 Architecture: arm64
 Maintainer: Foo <roo@invalid.hh>
 Depends: systemd
-Description: One application use unix or tcp listener to listen power off signal to power off linux system..
+Description: One application use unix or tcp listener
+ to listen power off signal to power off linux system.
