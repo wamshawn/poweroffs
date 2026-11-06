@@ -9,6 +9,7 @@ import (
 	"net"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -182,13 +183,7 @@ func Run(ctx context.Context, options Options) (err error) {
 		return
 	}
 
-	hasPowerOff := false
-	for _, signal := range signals {
-		if signal == poweroff {
-			hasPowerOff = true
-			break
-		}
-	}
+	hasPowerOff := slices.Contains(signals, poweroff)
 	if hasPowerOff {
 		err = ErrPowerOff
 	} else {

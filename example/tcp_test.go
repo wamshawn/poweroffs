@@ -13,12 +13,12 @@ const (
 )
 
 func TestTCP(t *testing.T) {
-	certPEM, certErr := os.ReadFile(`/home/radxa/temp/poweroffs/ca.crt`)
+	certPEM, certErr := os.ReadFile(`/home/radxa/programs/foresight-rknn/etc/foresight-rknn/poweroffs.crt`)
 	if certErr != nil {
 		t.Error(certErr)
 		return
 	}
-	keyPEM, keyErr := os.ReadFile(`/home/radxa/temp/poweroffs/ca.key`)
+	keyPEM, keyErr := os.ReadFile(`/home/radxa/programs/foresight-rknn/etc/foresight-rknn/poweroffs.key`)
 	if keyErr != nil {
 		t.Error(keyErr)
 		return
