@@ -1,6 +1,6 @@
 module github.com/wamshawn/poweroffs
 
-go 1.26.2
+go 1.27.3
 
 require (
 	github.com/aacfactory/afssl v1.12.0
@@ -8,4 +8,4 @@ require (
 	golang.org/x/sys v0.47.0
 )
 
-require golang.org/x/crypto v0.17.0 // indirect
+require golang.org/x/crypto v0.56.0 // indirect
