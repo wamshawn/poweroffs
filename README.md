@@ -23,7 +23,7 @@ sudo poweroffs run --unix=poweroffs.sock \
  --tcp=127.0.0.1:13000 \
  --cert=ca.crt \
  --key=ca.key
-``
+```
 
 Generate CA.
 ```shell
